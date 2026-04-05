@@ -14,7 +14,14 @@ class ReservationController extends Controller
     {
         $clases = TrainingClass::with(['horarios' => function ($q) {
             $q->orderBy('fecha')->orderBy('hora_inicio');
-        }])->get();
+        }, 'horarios.reservas'])->get();
+
+        foreach ($clases as $clase) {
+            foreach ($clase->horarios as $horario) {
+                $reservadas = $horario->reservas->where('estado', 'activa')->count();
+                $horario->plazas_libres = $clase->capacidad - $reservadas;
+            }
+        }
 
         return view('reservas.index', compact('clases'));
     }

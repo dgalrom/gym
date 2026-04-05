@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro — GYM</title>
-</head>
-<body>
-    <h1>Crear cuenta</h1>
+@extends('layouts.main')
 
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('title', 'Registro — GYM')
+
+@section('content')
+    <h1>Crear cuenta</h1>
 
     <form method="POST" action="{{ route('register') }}">
         @csrf
@@ -42,5 +32,4 @@
     </form>
 
     <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión</a></p>
-</body>
-</html>
+@endsection

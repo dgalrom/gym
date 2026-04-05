@@ -24,7 +24,20 @@ class EntrenadorController extends Controller
                                ->with(['horarios.reservas.usuario'])
                                ->get();
 
-        return view('entrenador.alumnos', compact('clases'));
+        $alumnosPorClase = [];
+        foreach ($clases as $clase) {
+            $alumnos = collect();
+            foreach ($clase->horarios as $horario) {
+                foreach ($horario->reservas as $reserva) {
+                    if ($reserva->estado === 'activa' && $reserva->usuario) {
+                        $alumnos->put($reserva->usuario->id, $reserva->usuario);
+                    }
+                }
+            }
+            $alumnosPorClase[$clase->id] = $alumnos;
+        }
+
+        return view('entrenador.alumnos', compact('clases', 'alumnosPorClase'));
     }
 
     // Calendario: todos los horarios de sus clases ordenados por fecha
@@ -34,6 +47,15 @@ class EntrenadorController extends Controller
                                ->with(['horarios' => fn($q) => $q->orderBy('fecha')->orderBy('hora_inicio')])
                                ->get();
 
-        return view('entrenador.calendario', compact('clases'));
+        $horarios = collect();
+        foreach ($clases as $clase) {
+            foreach ($clase->horarios as $h) {
+                $h->nombre_clase = $clase->nombre;
+                $horarios->push($h);
+            }
+        }
+        $horarios = $horarios->sortBy('fecha');
+
+        return view('entrenador.calendario', compact('horarios'));
     }
 }

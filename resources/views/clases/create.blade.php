@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Nueva Clase — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Nueva Clase — GYM')
+
+@section('content')
     <h1>Nueva clase</h1>
     <a href="{{ route('clases.index') }}">← Volver al listado</a>
-
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
 
     <form method="POST" action="{{ route('clases.store') }}" enctype="multipart/form-data">
         @csrf
@@ -53,5 +43,4 @@
 
         <button type="submit">Crear clase</button>
     </form>
-</body>
-</html>
+@endsection

@@ -27,6 +27,7 @@
         .alert-success { background: #dcfce7; color: #166534; border-color: #22c55e; }
         .alert-danger { background: #fee2e2; color: #991b1b; border-color: #ef4444; }
     </style>
+    @yield('styles')
 </head>
 <body class="{{ request()->cookie('view_mode') == 'dark' ? 'dark-mode' : '' }}">
 
@@ -64,6 +65,9 @@
         <!-- Mensajes Flash -->
         @if(session('success'))
             <div class="alert alert-success">✨ {{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
         @if($errors->any())
             <div class="alert alert-danger">

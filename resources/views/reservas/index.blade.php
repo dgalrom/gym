@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Clases disponibles — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Clases disponibles — GYM')
+
+@section('content')
     <h1>Clases disponibles</h1>
     <a href="{{ route('dashboard') }}">← Volver al panel</a>
-
-    @if(session('success'))
-        <p style="color:green">{{ session('success') }}</p>
-    @endif
-    @if(session('error'))
-        <p style="color:red">{{ session('error') }}</p>
-    @endif
 
     @forelse($clases as $clase)
         <h2>{{ $clase->nombre }}</h2>
@@ -35,17 +26,13 @@
                 </thead>
                 <tbody>
                     @foreach($clase->horarios as $horario)
-                        @php
-                            $reservadas = $horario->reservas()->where('estado','activa')->count();
-                            $libres     = $clase->capacidad - $reservadas;
-                        @endphp
                         <tr>
                             <td>{{ \Carbon\Carbon::parse($horario->fecha)->format('d/m/Y') }}</td>
                             <td>{{ substr($horario->hora_inicio, 0, 5) }}</td>
                             <td>{{ substr($horario->hora_fin, 0, 5) }}</td>
-                            <td>{{ $libres > 0 ? $libres : 'Completo' }}</td>
+                            <td>{{ $horario->plazas_libres > 0 ? $horario->plazas_libres : 'Completo' }}</td>
                             <td>
-                                @if($libres > 0)
+                                @if($horario->plazas_libres > 0)
                                     <form method="POST" action="{{ route('reservas.store') }}">
                                         @csrf
                                         <input type="hidden" name="schedule_id" value="{{ $horario->id }}">
@@ -64,5 +51,4 @@
     @empty
         <p>No hay clases disponibles.</p>
     @endforelse
-</body>
-</html>
+@endsection

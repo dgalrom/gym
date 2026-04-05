@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestión de Usuarios — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Gestión de Usuarios — GYM')
+
+@section('content')
     <h1>Usuarios</h1>
     <a href="{{ route('dashboard') }}">← Volver al panel</a>
-
-    @if(session('success'))
-        <p style="color:green">{{ session('success') }}</p>
-    @endif
 
     <table border="1" cellpadding="6">
         <thead>
@@ -44,5 +38,4 @@
             @endforelse
         </tbody>
     </table>
-</body>
-</html>
+@endsection

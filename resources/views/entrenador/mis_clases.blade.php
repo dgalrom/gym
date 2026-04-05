@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mis Clases — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Mis Clases — GYM')
+
+@section('content')
     <h1>Mis clases</h1>
     <a href="{{ route('dashboard') }}">← Volver al panel</a>
 
@@ -35,5 +33,4 @@
     @empty
         <p>No tienes clases asignadas.</p>
     @endforelse
-</body>
-</html>
+@endsection

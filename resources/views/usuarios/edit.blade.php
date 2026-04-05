@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Usuario — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Editar Usuario — GYM')
+
+@section('content')
     <h1>Editar usuario: {{ $usuario->name }}</h1>
     <a href="{{ route('usuarios.index') }}">← Volver al listado</a>
-
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
 
     <form method="POST" action="{{ route('usuarios.update', $usuario->id) }}">
         @csrf
@@ -45,5 +35,4 @@
 
         <button type="submit">Guardar cambios</button>
     </form>
-</body>
-</html>
+@endsection

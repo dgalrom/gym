@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mis Reservas — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Mis Reservas — GYM')
+
+@section('content')
     <h1>Mis reservas</h1>
     <a href="{{ route('dashboard') }}">← Volver al panel</a>
     &nbsp;|&nbsp;
     <a href="{{ route('reservas.index') }}">Ver clases disponibles</a>
-
-    @if(session('success'))
-        <p style="color:green">{{ session('success') }}</p>
-    @endif
 
     <table border="1" cellpadding="6">
         <thead>
@@ -49,5 +43,4 @@
             @endforelse
         </tbody>
     </table>
-</body>
-</html>
+@endsection

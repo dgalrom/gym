@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mi Calendario — GYM</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Mi Calendario — GYM')
+
+@section('content')
     <h1>Mi calendario de clases</h1>
     <a href="{{ route('dashboard') }}">← Volver al panel</a>
 
@@ -18,18 +16,6 @@
             </tr>
         </thead>
         <tbody>
-            @php
-                // Aplanar todos los horarios de todas las clases y ordenar por fecha
-                $horarios = collect();
-                foreach ($clases as $clase) {
-                    foreach ($clase->horarios as $h) {
-                        $h->nombre_clase = $clase->nombre;
-                        $horarios->push($h);
-                    }
-                }
-                $horarios = $horarios->sortBy('fecha');
-            @endphp
-
             @forelse($horarios as $h)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($h->fecha)->format('d/m/Y') }}</td>
@@ -42,5 +28,4 @@
             @endforelse
         </tbody>
     </table>
-</body>
-</html>
+@endsection

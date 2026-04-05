@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar horario — {{ $clase->nombre }}</title>
-</head>
-<body>
+@extends('layouts.main')
+
+@section('title', 'Editar horario — ' . $clase->nombre)
+
+@section('content')
     <h1>Editar horario de: {{ $clase->nombre }}</h1>
     <a href="{{ route('clases.horarios.index', $clase->id) }}">← Volver a horarios</a>
-
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
 
     <form method="POST" action="{{ route('clases.horarios.update', [$clase->id, $horario->id]) }}">
         @csrf
@@ -40,5 +30,4 @@
 
         <button type="submit">Guardar cambios</button>
     </form>
-</body>
-</html>
+@endsection

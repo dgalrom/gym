@@ -23,12 +23,7 @@ Route::post('/login',    [AuthController::class, 'login']);
 // ─────────────────────────────────────────────────────────────
 // RUTAS AUTENTICADAS — requieren sesión activa
 // ─────────────────────────────────────────────────────────────
-Route::middleware(function ($request, $next) {
-    if (!session('id_usuario')) {
-        return redirect()->route('login');
-    }
-    return $next($request);
-})->group(function () {
+Route::middleware('auth.session')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -43,12 +38,7 @@ Route::middleware(function ($request, $next) {
     // ─────────────────────────────────────────────────────────
     // RUTAS DE ADMINISTRACIÓN — requieren sesión + rol admin
     // ─────────────────────────────────────────────────────────
-    Route::middleware(function ($request, $next) {
-        if (session('rol') !== 'admin') {
-            abort(403, 'Acceso restringido a administradores.');
-        }
-        return $next($request);
-    })->group(function () {
+    Route::middleware('role.admin')->group(function () {
 
         // Usuarios
         Route::get('/usuarios',           [UserController::class, 'index'])->name('usuarios.index');
@@ -67,12 +57,7 @@ Route::middleware(function ($request, $next) {
     // ─────────────────────────────────────────────────────────
     // RUTAS DE ENTRENADOR — requieren sesión + rol entrenador
     // ─────────────────────────────────────────────────────────
-    Route::middleware(function ($request, $next) {
-        if (session('rol') !== 'entrenador') {
-            abort(403, 'Acceso restringido a entrenadores.');
-        }
-        return $next($request);
-    })->group(function () {
+    Route::middleware('role.entrenador')->group(function () {
 
         Route::get('/entrenador/mis-clases',  [EntrenadorController::class, 'misClases'])->name('entrenador.clases');
         Route::get('/entrenador/alumnos',     [EntrenadorController::class, 'alumnos'])->name('entrenador.alumnos');
